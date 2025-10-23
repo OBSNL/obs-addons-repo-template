@@ -48,8 +48,8 @@ org_website:
   type: str
   default: https://www.obs-solutions.com
   help:
-    Tell me the Organizations website. It's supposed to be human-readable. It will be used
-    in the website key of the __manifest__ files.
+    Tell me the Organizations website. It's supposed to be human-readable. It will be
+    used in the website key of the __manifest__ files.
   when: false
 
 repo_slug:
