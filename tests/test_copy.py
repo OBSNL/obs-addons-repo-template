@@ -35,10 +35,12 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
     }
     # Also pass additional parameters that affect template generation but won't be saved in answers
     all_data = data.copy()
-    all_data.update({
-        "use_ruff": False,  # Use flake8 instead of ruff for consistency in tests
-        "github_enable_stale_action": True,  # Enable stale workflow for testing
-    })
+    all_data.update(
+        {
+            "use_ruff": False,  # Use flake8 instead of ruff for consistency in tests
+            "github_enable_stale_action": True,  # Enable stale workflow for testing
+        }
+    )
     run_copy(str(cloned_template), tmp_path, data=all_data, defaults=True, unsafe=True)
     # When loading YAML files, we are also testing their syntax is correct, which
     # can be a little bit tricky due to the way both Jinja and YAML handle whitespace
@@ -67,11 +69,11 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
     # Check linter config based on odoo_version and use_ruff flag (which we passed but not saved in answers)
     # Since we set use_ruff: False, we should always get .flake8 when applicable
     # .flake8 is created for odoo_version < 13 (first condition) or odoo_version >= 13 and use_ruff is False (second condition)
-    if odoo_version < 13 or (odoo_version >= 13 and all_data["use_ruff"] == False):
+    if odoo_version < 13 or (odoo_version >= 13 and not all_data["use_ruff"]):
         flake8 = (tmp_path / ".flake8").read_text()
         assert "[flake8]" in flake8
     # The isort condition also depends on use_ruff - isort is created when odoo_version > 12 and not use_ruff
-    if odoo_version > 12 and all_data["use_ruff"] == False:
+    if odoo_version > 12 and not all_data["use_ruff"]:
         isort = (tmp_path / ".isort.cfg").read_text()
         assert "[settings]" in isort
     assert not (tmp_path / ".gitmodules").is_file()
@@ -98,7 +100,7 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
         f"[![codecov](https://codecov.io/gh/OBSNL/{REPO_SLUG}/branch/{odoo_version}/graph/badge.svg)](https://codecov.io/gh/OBSNL/{REPO_SLUG})"  # noqa: B950
         in readme
     )
-    odoo_version_tr = str(odoo_version).replace(".", "-")
+    str(odoo_version).replace(".", "-")
     # Translation status badge is not always included in non-OCA context
     # so we skip checking for it
     assert "# Test repo" in readme
