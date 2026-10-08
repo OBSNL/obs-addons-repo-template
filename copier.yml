@@ -143,6 +143,14 @@ use_ruff:
   help: Use ruff and ruff-format instead of flake8, autoflake, pyupgrade, isort, black.
   when: false
 
+use_odoo_lint:
+  default: yes
+  type: bool
+  help:
+    Run odoo-lint (odl) in pre-commit (Odoo 14.0 and later), next to pylint-odoo and the
+    OCA checks. It reports what it finds and never fails.
+  when: false
+
 additional_ruff_rules:
   type: yaml
   default: []
