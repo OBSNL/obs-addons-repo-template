@@ -66,6 +66,19 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
     assert "# This .pylintrc contains" in pylintrc_optional
     assert f"{valid_odoo_versions}={odoo_version}" in pylintrc_optional
     assert SOME_PYLINT_OPTIONAL_CHECK in pylintrc_optional
+    # odoo-lint runs next to pylint-odoo from 14.0 on, with the same settings
+    odoo_lint_toml = tmp_path / "odoo-lint.toml"
+    precommit = yaml.safe_load((tmp_path / ".pre-commit-config.yaml").read_text())
+    hooks = {hook["id"] for repo in precommit["repos"] for hook in repo["hooks"]}
+    if odoo_version >= 14:
+        odoo_lint = odoo_lint_toml.read_text()
+        assert f'target-version = "{odoo_version}"' in odoo_lint
+        assert 'authors = ["OBS Solutions B.V."]' in odoo_lint
+        assert ('"MOD005"' in odoo_lint) == (odoo_version >= 17)
+        assert "odoo-lint-advisory" in hooks
+    else:
+        assert not odoo_lint_toml.exists()
+        assert "odoo-lint-advisory" not in hooks
     # Check linter config based on odoo_version and use_ruff flag (which we passed but not saved in answers)
     # Since we set use_ruff: False, we should always get .flake8 when applicable
     # .flake8 is created for odoo_version < 13 (first condition) or odoo_version >= 13 and use_ruff is False (second condition)

@@ -1,5 +1,7 @@
 {#- This namespace holds repo versions #}
 {%- set repo_rev = namespace() %}
+{#- odoo-lint supports every Odoo version, so one release for all #}
+{%- set repo_rev.odoo_lint_pre_commit = "v0.1.0a8" %}
 
 {#- '<15' only affects to 14.0 #}
 {%- if odoo_version < 15 %}
@@ -337,6 +339,14 @@ repos:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
+  {%- endif %}
+  {%- if use_odoo_lint %}
+  # odoo-lint reports its findings but never fails; pylint-odoo and the OCA
+  # hooks stay the gate. Settings are in odoo-lint.toml.
+  - repo: https://github.com/bosd/odoo-lint-pre-commit
+    rev: {{ repo_rev.odoo_lint_pre_commit }}
+    hooks:
+      - id: odoo-lint-advisory
   {%- endif %}
   - repo: https://github.com/OCA/pylint-odoo
     rev: {{ repo_rev.pylint_odoo }}
