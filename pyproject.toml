@@ -15,6 +15,9 @@ dev = [
     "pytest",
     "pre-commit",
     "pytest-xdist",
+    # virtualenv >=20.27 dropped the Python 3.8 seeder; pre-commit needs it to
+    # build hook envs for the oldest templated Odoo versions (<=15, py3.8).
+    "virtualenv<20.27",
 ]
 
 # Not a distributable package, just a copier template with a dev toolchain
