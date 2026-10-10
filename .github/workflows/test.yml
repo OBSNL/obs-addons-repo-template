@@ -38,22 +38,21 @@ jobs:
     steps:
       # Prepare environment
       - uses: actions/checkout@v4
-      - name: Install poetry
-        run: pipx install poetry
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
 
       # Install specific alternate python versions required by hooks
       - name: Install python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: poetry
 
       # Let tests issue git commits
       - run: git config --global user.name CI
       - run: git config --global user.email CI@GITHUB
 
       # Run all tests
-      - run: poetry install
-      - run: poetry run pytest --color yes
+      - run: uv sync
+      - run: uv run pytest --color yes
         env:
           SELECTED_ODOO_VERSIONS: ${{ matrix.odoo-version }}
