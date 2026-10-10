@@ -66,6 +66,7 @@ This template allows to bootstrap and update addon repositories for these Odoo v
 - 17.0
 - 18.0
 - 19.0
+- 20.0
 
 Future versions will be added as they are released. Past versions could be added as long
 as they don't break existing branches.
