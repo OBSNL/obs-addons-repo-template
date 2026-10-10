@@ -1,24 +1,29 @@
-[tool.poetry]
+[project]
 name = "oca-addons-repo-template"
 version = "0.0.0"                            # Just a placeholder; the real version is the git tag
 description = "Template for OBS addon repos"
-authors = ["OBS Solutions B.V."]
+authors = [{ name = "OBS Solutions B.V." }]
 license = "MIT"
-package-mode = false
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml>=6.0.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9.0"
-pyyaml = ">=6.0.2"
+[dependency-groups]
+dev = [
+    "copier>=9",
+    "pytest",
+    "pre-commit",
+    "pytest-xdist",
+    # virtualenv >=20.27 dropped the Python 3.8 seeder; pre-commit needs it to
+    # build hook envs for the oldest templated Odoo versions (<=15, py3.8).
+    "virtualenv<20.27",
+]
 
-[tool.poetry.dev-dependencies]
-copier = ">=9"
-pytest = "*"
-pre-commit = "*"
-pytest-xdist = "*"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+# Not a distributable package, just a copier template with a dev toolchain
+# (was poetry's `package-mode = false`).
+[tool.uv]
+package = false
 
 # ruff
 
@@ -30,3 +35,8 @@ extend-select = [
     "UP", # pyupgrade
     "I",  # isort
 ]
+
+# pytest (migrated from pytest.ini)
+
+[tool.pytest.ini_options]
+addopts = "-n auto -ra tests"
