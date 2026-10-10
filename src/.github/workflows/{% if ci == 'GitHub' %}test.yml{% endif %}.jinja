@@ -9,9 +9,14 @@ on:
       - "{{ odoo_version }}"
       - "{{ odoo_version }}-ocabot-*"
 
+concurrency:
+  group: {% raw %}${{ github.workflow }}-${{ github.ref }}{% endraw %}
+  cancel-in-progress: true
+
 {%
 set IMAGES = {
   "odoo": {
+    20.0: "ghcr.io/oca/oca-ci/py3.12-odoo20.0:latest",
     19.0: "ghcr.io/oca/oca-ci/py3.10-odoo19.0:latest",
     18.0: "ghcr.io/oca/oca-ci/py3.10-odoo18.0:latest",
     17.0: "ghcr.io/oca/oca-ci/py3.10-odoo17.0:latest",
@@ -24,6 +29,7 @@ set IMAGES = {
     10.0: "ghcr.io/oca/oca-ci/py2.7-odoo10.0:latest",
   },
   "ocb": {
+    20.0: "ghcr.io/oca/oca-ci/py3.12-ocb20.0:latest",
     19.0: "ghcr.io/oca/oca-ci/py3.10-ocb19.0:latest",
     18.0: "ghcr.io/oca/oca-ci/py3.10-ocb18.0:latest",
     17.0: "ghcr.io/oca/oca-ci/py3.10-ocb17.0:latest",
