@@ -241,23 +241,6 @@ repos:
       - id: oca-checks-po
         args:
           - --disable=po-pretty-format
-  {%- if not use_ruff %}
-  - repo: https://github.com/myint/autoflake
-    rev: {{ repo_rev.autoflake }}
-    hooks:
-      - id: autoflake
-        args:
-          - --expand-star-imports
-          - --ignore-init-module-imports
-          - --in-place
-          - --remove-all-unused-imports
-          - --remove-duplicate-keys
-          - --remove-unused-variables
-  - repo: https://github.com/psf/black
-    rev: {{ repo_rev.black }}
-    hooks:
-      - id: black
-  {%- endif %}
   - repo: local
     hooks:
       - id: prettier
@@ -313,22 +296,14 @@ repos:
       - id: mixed-line-ending
         args: ["--fix=lf"]
   {#- ruff doesn't support python 3.6 #}
-  {%- if not use_ruff or odoo_version < 15.0 %}
+  {#- ruff's pyupgrade (UP) rules need python >=3.7, so keep pyupgrade for the
+      oldest templated Odoo versions (<15.0, python <=3.6). #}
+  {%- if odoo_version < 15.0 %}
   - repo: https://github.com/asottile/pyupgrade
     rev: {{ repo_rev.pyupgrade }}
     hooks:
       - id: pyupgrade
         args: ["--keep-percent-format"]
-  {%- endif %}
-  {%- if not use_ruff %}
-  - repo: https://github.com/PyCQA/isort
-    rev: {{ repo_rev.isort }}
-    hooks:
-      - id: isort
-        name: isort except __init__.py
-        args:
-          - --settings=.
-        exclude: /__init__\.py$
   {%- endif %}
   {%- if not use_pyproject_toml and false %}
   - repo: https://github.com/acsone/setuptools-odoo
@@ -344,14 +319,6 @@ repos:
           - "# generated from manifests external_dependencies"
       {%- endif %}
   {%- endif %}
-  {%- if not use_ruff %}
-  - repo: https://github.com/PyCQA/flake8
-    rev: {{ repo_rev.flake8 }}
-    hooks:
-      - id: flake8
-        name: flake8
-        additional_dependencies: ["flake8-bugbear=={{ repo_rev.flake8_bugbear }}"]
-  {%- else %}
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: {{ repo_rev.ruff }}
     hooks:
@@ -359,7 +326,6 @@ repos:
       - id: ruff{% if odoo_version >= 20 %}-check{% endif %}
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
-  {%- endif %}
   {%- if use_odoo_lint %}
   # odoo-lint reports its findings but never fails; pylint-odoo and the OCA
   # hooks stay the gate. Settings are in odoo-lint.toml.

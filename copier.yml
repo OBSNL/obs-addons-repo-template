@@ -138,12 +138,6 @@ generate_requirements_txt:
     Generate requirements.txt from addons manifests and optional overrides in setup.py
     files.
 
-use_ruff:
-  default: yes
-  type: bool
-  help: Use ruff and ruff-format instead of flake8, autoflake, pyupgrade, isort, black.
-  when: false
-
 use_odoo_lint:
   default: yes
   type: bool
