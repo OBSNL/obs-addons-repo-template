@@ -99,6 +99,9 @@ enable=anomalous-backslash-in-string,
     translation-unsupported-format,
     no-write-in-compute
 {%- endif %}
+{%- if odoo_version >= 20 %},
+    manifest-summary-multiline
+{%- endif %}
 {%- block optional_checks %}{% endblock %}
 
 [REPORTS]

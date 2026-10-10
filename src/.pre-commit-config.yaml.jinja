@@ -93,7 +93,7 @@
   {%- set repo_rev.pyupgrade = "v2.38.2" %}
   {%- set repo_rev.ruff = "v0.9.9" %}
   {%- set repo_rev.setuptools_odoo = "3.1.8" %}
-{%- else %}
+{%- elif odoo_version < 20 %}
   {%- set repo_rev.autoflake = "v2.3.1" %}
   {%- set repo_rev.black = "25.1.0" %}
   {%- set repo_rev.eslint = "9.35.0" %}
@@ -112,6 +112,25 @@
   {%- set repo_rev.pyupgrade = "v3.20.0" %}
   {%- set repo_rev.ruff = "v0.13.0" %}
   {%- set repo_rev.setuptools_odoo = "3.1.8" %}
+{%- else %}
+  {%- set repo_rev.autoflake = "v2.4.0" %}
+  {%- set repo_rev.black = "26.5.1" %}
+  {%- set repo_rev.eslint = "10.10.0" %}
+  {%- set repo_rev.eslint_jsdoc = "64.5.2" %}
+  {%- set repo_rev.flake8 = "3.9.2" %}
+  {%- set repo_rev.flake8_bugbear = "21.9.2" %}
+  {%- set repo_rev.globals = "17.12.0" %}
+  {%- set repo_rev.isort = "9.0.1" %}
+  {%- set repo_rev.maintainer_tools = "31bdbd8e4cb94be6534f0e82b1cafb84a455f671" %}
+  {%- set repo_rev.nodejs = "22.23.2" %}
+  {%- set repo_rev.odoo_pre_commit_hooks = "v0.2.27" %}
+  {%- set repo_rev.pre_commit_hooks = "v6.0.0" %}
+  {%- set repo_rev.prettier = "3.9.7" %}
+  {%- set repo_rev.prettier_xml = "3.4.2" %}
+  {%- set repo_rev.pylint_odoo = "v10.0.11" %}
+  {%- set repo_rev.pyupgrade = "v3.21.2" %}
+  {%- set repo_rev.ruff = "v0.16.8" %}
+  {%- set repo_rev.setuptools_odoo = "3.3.2" %}
 {%- endif %}
 
 {#- Older versions that differ a lot have their own hardcoded templates for readability #}
@@ -336,7 +355,8 @@ repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: {{ repo_rev.ruff }}
     hooks:
-      - id: ruff
+      {#- 'ruff' is only a legacy alias of 'ruff-check' since ruff 0.13 #}
+      - id: ruff{% if odoo_version >= 20 %}-check{% endif %}
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
   {%- endif %}
