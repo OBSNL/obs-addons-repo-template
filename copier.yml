@@ -191,7 +191,7 @@ github_check_license:
 
 github_enable_codecov:
   type: bool
-  default: yes
+  default: no
   help: GitHub action runs codecov/codecov-action?
   when: *ci_is_github
 

@@ -121,7 +121,7 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
         in readme
     )
     assert (
-        f"[![codecov](https://codecov.io/gh/OBSNL/{REPO_SLUG}/branch/{odoo_version}/graph/badge.svg)](https://codecov.io/gh/OBSNL/{REPO_SLUG})"  # noqa: B950
+        f"[![Coverage](https://img.shields.io/badge/coverage-GitHub%20PR%20checks-blue)](https://github.com/OBSNL/{REPO_SLUG}/pull?q=is%3Apr+branch%3A{odoo_version})"  # noqa: B950
         in readme
     )
     str(odoo_version).replace(".", "-")
