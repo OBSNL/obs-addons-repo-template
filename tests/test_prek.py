@@ -2,11 +2,11 @@ from pathlib import Path
 
 from copier import run_copy
 from plumbum import local
-from plumbum.cmd import git, pre_commit
+from plumbum.cmd import git, prek
 
 
 def test_hooks_installable(tmp_path: Path, odoo_version: float, cloned_template: Path):
-    """Test that pre-commit hooks are installable."""
+    """Test that the hooks configured by the template are installable."""
     data = {
         "odoo_version": odoo_version,
         "repo_slug": "website",
@@ -16,4 +16,4 @@ def test_hooks_installable(tmp_path: Path, odoo_version: float, cloned_template:
     run_copy(str(cloned_template), tmp_path, data=data, defaults=True, unsafe=True)
     with local.cwd(tmp_path):
         git("init")
-        pre_commit("install-hooks")
+        prek("install-hooks")

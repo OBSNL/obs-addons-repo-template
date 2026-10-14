@@ -21,17 +21,17 @@ to read its docs to know how it works.
 Quick answer to bootstrap a new repo:
 
 ```bash
-# Install copier and pre-commit if missing
+# Install copier and prek if missing
 pipx install copier
-pipx install pre-commit
+pipx install prek
 pipx ensurepath
 # Clone this template and answer its questions
 copier copy --UNSAFE https://github.com/OBSNL/obs-addons-repo-template.git some-repo
 # Commit that
 cd some-repo
 git add .
-pre-commit install
-pre-commit run -a
+prek install
+prek run -a
 git commit -am 'Hello world 🖖'
 ```
 
@@ -42,12 +42,16 @@ Quick answer to update a repo:
 cd some-repo
 copier update --UNSAFE
 # Reformat updated files
-pre-commit run
+prek run
 # Commit update
 git commit -am 'Updated from template'
-# Reformat all other files, in case some pre-commit configuration was updated
-pre-commit run -a || git commit -am 'Reformatted after template update'
+# Reformat all other files, in case some hook configuration was updated
+prek run -a || git commit -am 'Reformatted after template update'
 ```
+
+Hooks are run by [prek](https://prek.j178.dev), a fast drop-in replacement for
+`pre-commit`. It reads the very same `.pre-commit-config.yaml`, so any `pre-commit`
+command in the docs can be replaced by its `prek` equivalent.
 
 ## How to contribute?
 

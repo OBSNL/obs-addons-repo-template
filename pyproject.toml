@@ -13,11 +13,10 @@ dependencies = [
 dev = [
     "copier>=9",
     "pytest",
-    "pre-commit",
+    # prek is the hook runner (drop-in replacement for pre-commit, same
+    # `.pre-commit-config.yaml`)
+    "prek",
     "pytest-xdist",
-    # virtualenv >=20.27 dropped the Python 3.8 seeder; pre-commit needs it to
-    # build hook envs for the oldest templated Odoo versions (<=15, py3.8).
-    "virtualenv<20.27",
 ]
 
 # Not a distributable package, just a copier template with a dev toolchain
@@ -34,6 +33,7 @@ fix = true
 extend-select = [
     "UP", # pyupgrade
     "I",  # isort
+    "T10", # flake8-debugger: replaces the debug-statements hook
 ]
 
 # pytest (migrated from pytest.ini)

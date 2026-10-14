@@ -136,7 +136,7 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
     readme = (tmp_path / "README.md").read_text()
     # With GitHub CI, we should have GitHub Actions badges
     assert (
-        f"[![Pre-commit Status](https://github.com/OBSNL/{REPO_SLUG}/actions/workflows/pre-commit.yml/badge.svg?branch={odoo_version})](https://github.com/OBSNL/{REPO_SLUG}/actions/workflows/pre-commit.yml?query=branch%3A{odoo_version})"  # noqa: B950
+        f"[![Prek Status](https://github.com/OBSNL/{REPO_SLUG}/actions/workflows/pre-commit.yml/badge.svg?branch={odoo_version})](https://github.com/OBSNL/{REPO_SLUG}/actions/workflows/pre-commit.yml?query=branch%3A{odoo_version})"  # noqa: B950
         in readme
     )
     assert (

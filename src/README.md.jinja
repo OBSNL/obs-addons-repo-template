@@ -9,7 +9,7 @@
 {%- if ci == "Travis" %}
 [![Build Status](https://travis-ci.com/{{ org_slug }}/{{ repo_slug }}.svg?branch={{ odoo_version }})](https://travis-ci.com/{{ org_slug }}/{{ repo_slug }})
 {%- else %}
-[![Pre-commit Status](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/pre-commit.yml/badge.svg?branch={{ odoo_version }})](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/pre-commit.yml?query=branch%3A{{ odoo_version }})
+[![Prek Status](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/pre-commit.yml/badge.svg?branch={{ odoo_version }})](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/pre-commit.yml?query=branch%3A{{ odoo_version }})
 [![Build Status](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/test.yml/badge.svg?branch={{ odoo_version }})](https://github.com/{{ org_slug }}/{{ repo_slug }}/actions/workflows/test.yml?query=branch%3A{{ odoo_version }})
 {%- endif %}
 {%- if github_enable_codecov %}
