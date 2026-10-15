@@ -1,14 +1,18 @@
 /** @type {import('prettier').Config} */
 
 const config = {
+  {%- if not use_odoo_lint %}
   // https://github.com/prettier/prettier/issues/15388#issuecomment-1717746872
   plugins: [require.resolve("@prettier/plugin-xml")],
+  {%- endif %}
   bracketSpacing: false,
   printWidth: 88,
   proseWrap: "always",
   semi: true,
   trailingComma: "es5",
+  {%- if not use_odoo_lint %}
   xmlWhitespaceSensitivity: "preserve",
+  {%- endif %}
 };
 
 module.exports = config;
