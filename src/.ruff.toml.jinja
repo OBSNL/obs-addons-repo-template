@@ -11,6 +11,7 @@ extend-select = [
     "C90",
     "E501",  # line too long (default 88)
     "I",  # isort
+    "T10",  # debugger statements (pre-commit's debug-statements)
     {%- if odoo_version >= 15.0 %}
     "UP",  # pyupgrade
     {%- endif %}

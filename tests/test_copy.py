@@ -75,9 +75,32 @@ def test_bootstrap(tmp_path: Path, odoo_version: float, cloned_template: Path):
         assert 'authors = ["OBS Solutions B.V."]' in odoo_lint
         assert ('"MOD005"' in odoo_lint) == (odoo_version >= 17)
         assert "odoo-lint-advisory" in hooks
+        # odoo-lint formats XML and stylesheets, writes requirements.txt and
+        # sets the manifest website, in place of prettier's XML plugin and two
+        # OCA hooks
+        assert 'website = "https://www.obs-solutions.com"' in odoo_lint
+        assert {"odoo-lint-format", "odoo-lint-requirements", "odoo-lint"} <= hooks
+        assert not hooks & {"oca-fix-manifest-website", "oca-gen-external-dependencies"}
+        prettier = next(
+            hook
+            for repo in precommit["repos"]
+            for hook in repo["hooks"]
+            if hook["id"] == "prettier"
+        )
+        assert "xml" not in prettier["files"]
+        assert not any("plugin-xml" in d for d in prettier["additional_dependencies"])
+        # ruff's T10 replaces debug-statements
+        assert "debug-statements" not in hooks
+        assert '"T10"' in (tmp_path / ".ruff.toml").read_text()
     else:
         assert not odoo_lint_toml.exists()
         assert "odoo-lint-advisory" not in hooks
+    # oxlint replaces eslint from 18.0 on (the flat config, migrated)
+    if odoo_version >= 18:
+        assert "oxlint" in hooks and "eslint" not in hooks
+        assert (tmp_path / ".oxlintrc.json").is_file()
+        assert not (tmp_path / "eslint.config.cjs").exists()
+        assert "plugin-xml" not in (tmp_path / "prettier.config.cjs").read_text()
     # Only the oldest templated versions (< 13, the mqt-compat config) still ship
     # a .flake8; 13.0+ lint with ruff, so there is no .flake8 or .isort.cfg.
     if odoo_version < 13:
