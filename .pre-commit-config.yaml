@@ -9,12 +9,12 @@ repos:
     rev: v4.5.0
     hooks:
       - id: check-case-conflict
-      - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-xml
-      - id: debug-statements
+      # debug-statements and check-docstring-first are gone: ruff's T10
+      # (flake8-debugger) covers the former
       - id: end-of-file-fixer
       - id: fix-encoding-pragma
         args: ["--remove"]

@@ -5,7 +5,8 @@ _min_copier_version: "9"
 
 _tasks:
   - rm -f {% if ci != "Travis" %}.travis.yml{% endif %} .t2d.yml
-  - "{% if odoo_version >= 18 %}rm -f .prettierrc.yml .eslintrc.yml{% endif %}"
+  - "{% if odoo_version >= 18 %}rm -f .prettierrc.yml .eslintrc.yml eslint.config.cjs{%
+    endif %}"
 
 _migrations:
   - version: v1.3.6
@@ -142,8 +143,8 @@ use_odoo_lint:
   default: yes
   type: bool
   help:
-    Run odoo-lint (odl) in pre-commit (Odoo 14.0 and later), next to pylint-odoo and the
-    OCA checks. It reports what it finds and never fails.
+    Run odoo-lint (odl) in prek (Odoo 14.0 and later), next to pylint-odoo and the OCA
+    checks. It reports what it finds and never fails.
   when: false
 
 additional_ruff_rules:

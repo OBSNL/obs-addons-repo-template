@@ -1,6 +1,6 @@
 # odoo-lint (odl): pylint-odoo's and OCA's checks for the addons in this repo.
 # https://odoo-lint.readthedocs.io/en/latest/configuration.html
-# It runs as an advisory pre-commit hook: it reports what it finds and never
+# It runs as an advisory prek hook: it reports what it finds and never
 # fails; pylint-odoo and the OCA checks stay the gate. The settings follow
 # .pylintrc-mandatory.
 target-version = "{{ "%.01f" | format(odoo_version) }}"

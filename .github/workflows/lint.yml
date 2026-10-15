@@ -1,4 +1,4 @@
-name: pre-commit
+name: prek
 
 on:
   pull_request:
@@ -8,11 +8,9 @@ on:
     types: [created]
 
 jobs:
-  pre-commit:
+  prek:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.12"
-      - uses: pre-commit/action@v3.0.0
+      # prek is a single Rust binary; it needs no Python
+      - uses: j178/prek-action@v3.0.1

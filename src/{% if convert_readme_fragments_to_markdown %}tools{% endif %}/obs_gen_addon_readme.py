@@ -20,7 +20,7 @@ addon without one is skipped, exactly as the OCA tool does.
 
 The generated file opens with an HTML comment holding a digest of the manifest
 and the fragments. ``--if-source-changed`` uses it to skip addons whose sources
-have not moved, which keeps the pre-commit hook fast and idempotent.
+have not moved, which keeps the prek hook fast and idempotent.
 """
 
 from __future__ import annotations
@@ -415,7 +415,7 @@ def main(argv: list[str] | None = None) -> int:
 
     addons_dir = Path(args.addons_dir).resolve()
     if args.addons:
-        # pre-commit passes changed files; map each back to its addon
+        # prek passes changed files; map each back to its addon
         names = set()
         for path in args.addons:
             resolved = Path(path).resolve()
@@ -451,7 +451,7 @@ def main(argv: list[str] | None = None) -> int:
 
     for path in written:
         _logger.info("%s: regenerated", path.relative_to(addons_dir))
-    # pre-commit convention: a hook that rewrote files fails, so the run stops
+    # prek convention: a hook that rewrote files fails, so the run stops
     # and the developer commits the regenerated README.
     return 1 if written else 0
 
